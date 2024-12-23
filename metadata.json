@@ -2,7 +2,7 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "Lyall A"
+                "Name": "Lyall"
             }
         ],
         "Category": "Multimedia",
@@ -11,7 +11,7 @@
         "Icon": "view-media-lyrics",
         "Name": "Lyrics",
         "Website": "https://github.com/Lyall-A/Plasma-Lyrics",
-        "Version": "1"
+        "Version": "1.1"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "KPackageStructure": "Plasma/Applet"

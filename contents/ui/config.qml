@@ -11,11 +11,14 @@ Kirigami.FormLayout {
 
     property alias cfg_width: widthTextField.text
     property alias cfg_height: heightTextField.text
-    property alias cfg_size: sizeSpinBox.value
     property alias cfg_margin: marginSpinBox.value
-    property alias cfg_color: colorButton.color
+    property alias cfg_size: sizeSpinBox.value
+    property alias cfg_color: colorColorButton.color
     property alias cfg_bold: boldButton.checked
     property alias cfg_italic: italicButton.checked
+    property alias cfg_customBackground: customBackgroundCheckBox.checked
+    property alias cfg_backgroundColor: backgroundColorButton.color
+    property alias cfg_backgroundRadius: backgroundRadiusSpinBox.value
     property alias cfg_fade: fadeTextField.text
     property alias cfg_noMedia: noMediaTextField.text
     property alias cfg_noLyrics: noLyricsTextField.text
@@ -45,14 +48,15 @@ Kirigami.FormLayout {
 
     QQC2.SpinBox {
         id: sizeSpinBox
-        Kirigami.FormData.label: i18n("Size: ")
+        Kirigami.FormData.label: i18n("Font size: ")
     }
 
     QQLayouts.RowLayout {
-        Kirigami.FormData.label: i18n("Color: ")
+        Kirigami.FormData.label: i18n("Font style: ")
 
         KQControls.ColorButton {
-            id: colorButton
+            id: colorColorButton
+            Kirigami.FormData.label: i18n("Color: ")
         }
         QQC2.Button {
             id: boldButton
@@ -70,6 +74,23 @@ Kirigami.FormLayout {
             icon.name: "format-text-italic"
             checkable: true
         }
+    }
+
+    QQC2.CheckBox {
+        id: customBackgroundCheckBox
+        Kirigami.FormData.label: i18n("Use custom background: ")
+    }
+
+    KQControls.ColorButton {
+        id: backgroundColorButton
+        visible: cfg_customBackground ? true : false
+        Kirigami.FormData.label: i18n("Background color")
+    }
+
+    QQC2.SpinBox {
+        id: backgroundRadiusSpinBox
+        visible: cfg_customBackground ? true : false
+        Kirigami.FormData.label: i18n("Background border radius")
     }
 
     QQC2.TextField {

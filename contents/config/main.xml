@@ -9,11 +9,11 @@
         <entry name="height" type="Int">
             <default></default>
         </entry>
-        <entry name="size" type="Int">
-            <default>13</default>
-        </entry>
         <entry name="margin" type="Int">
             <default>5</default>
+        </entry>
+        <entry name="size" type="Int">
+            <default>13</default>
         </entry>
         <entry name="color" type="Color">
             <default>#FFFFFF</default>
@@ -23,6 +23,15 @@
         </entry>
         <entry name="italic" type="Bool">
             <default>false</default>
+        </entry>
+        <entry name="customBackground" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="backgroundColor" type="Color">
+            <default>#141414</default>
+        </entry>
+        <entry name="backgroundRadius" type="Int">
+            <default>10</default>
         </entry>
         <entry name="fade" type="Int">
             <default>150</default>

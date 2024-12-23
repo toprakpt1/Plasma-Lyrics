@@ -12,11 +12,20 @@ PlasmoidItem {
     id: root
     width: config_width;
     height: config_height;
-
     preferredRepresentation: fullRepresentation
     Layout.preferredWidth: config_width;
     Layout.preferredHeight: config_height;
 
+    // Custom background
+    Plasmoid.backgroundHints: config_customBackground ? PlasmaCore.Types.NoBackground : PlasmaCore.Types.DefaultBackground
+    Rectangle {
+        visible: config_customBackground
+        color: config_backgroundColor
+        radius: config_backgroundRadius
+        anchors.fill: parent
+    }
+
+    // Media player
     Mpris.Mpris2Model {
         id: mpris2Model
     }
@@ -35,11 +44,14 @@ PlasmoidItem {
     // Configs
     property int config_width: Plasmoid.configuration.width;
     property int config_height: Plasmoid.configuration.height;
-    property int config_size: Plasmoid.configuration.size;
     property int config_margin: Plasmoid.configuration.margin;
+    property int config_size: Plasmoid.configuration.size;
     property string config_color: Plasmoid.configuration.color;
     property bool config_bold: Plasmoid.configuration.bold;
     property bool config_italic: Plasmoid.configuration.italic;
+    property bool config_customBackground: Plasmoid.configuration.customBackground
+    property string config_backgroundColor: Plasmoid.configuration.backgroundColor;
+    property int config_backgroundRadius: Plasmoid.configuration.backgroundRadius;
     property int config_fade: Plasmoid.configuration.fade;
     property string config_noMedia: Plasmoid.configuration.noMedia;
     property string config_noLyrics: Plasmoid.configuration.noLyrics;
@@ -171,18 +183,18 @@ PlasmoidItem {
                     "Advertisement", // Spotify Ads
                     / \/ (X|Twitter)$/, // X/Twitter
                     /^TikTok - /, // TikTok
-                ].some(match => (typeof match === "string" && match === title) || (match instanceof RegExp && match.test(title)))) return console.log(`Not getting lyrics for '${title}' (blacklisted title)!`);
+                ].some(match => (typeof match === "string" && match === title) || (match instanceof RegExp && match.test(title)))) return console.log(`Not getting lyrics for '${title}' (blacklisted title)`);
                 
                 // Blacklisted artists
                 if ([
                     "DJ X", // Spotify DJ
-                ].some(match => (typeof match === "string" && match === artist) || (match instanceof RegExp && match.test(artist)))) return console.log(`Not getting lyrics for '${title}' (blacklisted artist)!`);
+                ].some(match => (typeof match === "string" && match === artist) || (match instanceof RegExp && match.test(artist)))) return console.log(`Not getting lyrics for '${title}' (blacklisted artist)`);
 
                 // Blacklisted albums
                 if ([
                     /^https:\/\/(x|twitter).com/, // X/Twitter
                     /^https:\/\/www.tiktok.com/, // TikTok
-                ].some(match => (typeof match === "string" && match === album) || (match instanceof RegExp && match.test(album)))) return console.log(`Not getting lyrics for '${title}' (blacklisted album)!`);
+                ].some(match => (typeof match === "string" && match === album) || (match instanceof RegExp && match.test(album)))) return console.log(`Not getting lyrics for '${title}' (blacklisted album)`);
 
                 getLyrics();
             }
@@ -245,7 +257,7 @@ PlasmoidItem {
             const track = tracksList.get(i);
             if (track.title === title && track.artist === artist && track.album === album) {
                 foundTrack = true;
-                console.log(`Got existing lyrics for '${title}'!`);
+                console.log(`Got existing lyrics for '${title}'`);
                 parseLyrics(track.syncedLyrics);
             }
         }
@@ -253,7 +265,7 @@ PlasmoidItem {
         if (foundTrack) return;
 
         // Get using API
-        if (!queryFailed) console.log(`Getting lyrics for '${title}'...`);
+        if (!queryFailed) console.log(`Getting lyrics for '${title}'`);
 
         const xhr = new XMLHttpRequest();
         xhr.open("GET", lyricQueryUrl);
@@ -272,21 +284,21 @@ PlasmoidItem {
 
                 if (xhr.status !== 200 || !syncedLyrics) {
                     // Failed (no synced lyrics)
-                    if (!queryFailed) console.log(`Couldn't get lyrics for '${title}'`);
+                    if (!queryFailed) console.log(`Failed to get lyrics for '${title}'`);
                     queryFailed++;
 
                     if (lyricQueryUrl && config_fallback) {
-                        console.log(`Retrying with fallback search (x${queryFailed})...`);
+                        console.log(`Retrying with fallback search (x${queryFailed})`);
                         getLyrics();
                     }
                     
-                    if (!lyricQueryUrl && config_fallback) console.log(`Couldn't get lyrics for '${title}' with fallback search!`);
+                    if (!lyricQueryUrl && config_fallback) console.log(`Failed to get lyrics for '${title}' with fallback search`);
 
                     return;
                 }
 
                 // Got synced lyrics
-                console.log(`Got lyrics for '${title}'!`);
+                console.log(`Got lyrics for '${title}'`);
                 tracksList.append({ title, artist, album, syncedLyrics });
                 parseLyrics(syncedLyrics);
             }
