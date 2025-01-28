@@ -56,7 +56,7 @@ PlasmoidItem {
     property string config_noMedia: Plasmoid.configuration.noMedia;
     property string config_noLyrics: Plasmoid.configuration.noLyrics;
     property int config_offset: Plasmoid.configuration.offset;
-    property bool config_fallback: Plasmoid.configuration.fallback;
+    property int config_searchAttempts: Plasmoid.configuration.searchAttempts;
     property bool config_alignHorizontalLeft: Plasmoid.configuration.alignHorizontalLeft;
     property bool config_alignHorizontalCenter: Plasmoid.configuration.alignHorizontalCenter;
     property bool config_alignHorizontalRight: Plasmoid.configuration.alignHorizontalRight;
@@ -72,8 +72,9 @@ PlasmoidItem {
     property string newText: "";
 
     property string lyricQueryUrl: {
-        if (queryFailed === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist.replace(" - Topic", ""))}&album_name=${encodeURIComponent(album)}`; // Accurate
-        if (queryFailed === 1) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`; // Less accurate
+        if (queryFailed === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist.replace(/ - Topic$/, ""))}&album_name=${encodeURIComponent(album)}`; // Accurate
+        if (queryFailed === 1) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist.replace(/ - Topic$/, ""))}`; // Kinda accurate
+        if (queryFailed === 2) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`; // Less accurate
 
         return "";
     }
@@ -287,12 +288,12 @@ PlasmoidItem {
                     if (!queryFailed) console.log(`Failed to get lyrics for '${title}'`);
                     queryFailed++;
 
-                    if (lyricQueryUrl && config_fallback) {
-                        console.log(`Retrying with fallback search (x${queryFailed})`);
+                    if (lyricQueryUrl && config_searchAttempts > queryFailed) {
+                        console.log(`Retrying with different query (x${queryFailed})`);
                         getLyrics();
                     }
                     
-                    if (!lyricQueryUrl && config_fallback) console.log(`Failed to get lyrics for '${title}' with fallback search`);
+                    if ((!lyricQueryUrl || queryFailed >= config_searchAttempts) && queryFailed > 1) console.log(`Failed to get lyrics for '${title}' after ${queryFailed} attempts`);
 
                     return;
                 }

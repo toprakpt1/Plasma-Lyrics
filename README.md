@@ -1,13 +1,18 @@
 # Plasma Lyrics
 
-Get's currently playing media and attempts to display the lyrics as a widget using [LRCLIB](https://lrclib.net)
+Displays the lyrics of a song as a widget using [LRCLIB](https://lrclib.net)
 
 Works with Spotify, YouTube, SoundCloud and probably everything else
 
-Enabling `Allow less-accurate searches` can help if you are listening to reuploaded songs, but can give incorrect lyrics sometimes
+## Options
+* **Max search attempts**
+  1. Search with title, artist name, and album name
+  2. Search with title and artist name
+  3. Search with title as query (good for reuploaded music)
 
-![Example 3](./example3.png)
+## Examples
+![Example 1](./example1.png)
 
 ![Example 2](./example2.png)
 
-![Example 1](./example1.png)
+![Example 3](./example3.png)
