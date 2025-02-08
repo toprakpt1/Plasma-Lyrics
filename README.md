@@ -10,9 +10,7 @@ Works with Spotify, YouTube, SoundCloud and probably everything else
   2. Search with title and artist name
   3. Search with title as query (good for reuploaded music)
 
-## Examples
+## Screenshots
 ![Example 1](./example1.png)
 
 ![Example 2](./example2.png)
-
-![Example 3](./example3.png)
