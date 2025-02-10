@@ -32,7 +32,7 @@ PlasmoidItem {
 
     // Player info
     property string title: mpris2Model.currentPlayer?.track ?? "";
-    property string artist: mpris2Model.currentPlayer?.artist ?? "";
+    property string artist: mpris2Model.currentPlayer?.artist?.replace(/ - Topic$/, "") ?? "";
     property string album: mpris2Model.currentPlayer?.album ?? "";
     property string playerName: mpris2Model.currentPlayer?.objectName ?? "";
     property int position: mpris2Model.currentPlayer?.position ?? 0;
@@ -72,9 +72,9 @@ PlasmoidItem {
     property string newText: "";
 
     property string lyricQueryUrl: {
-        if (queryFailed === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist.replace(/ - Topic$/, ""))}&album_name=${encodeURIComponent(album)}`; // Accurate
-        if (queryFailed === 1) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist.replace(/ - Topic$/, ""))}`; // Kinda accurate
-        if (queryFailed === 2) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`; // Less accurate
+        if (queryFailed === 0 && title && artist && album) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}&album_name=${encodeURIComponent(album)}`; // Accurate
+        if (queryFailed === 1 && title && artist) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}`; // Kinda accurate
+        if (queryFailed === 2 && title) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`; // Less accurate
 
         return "";
     }
@@ -263,7 +263,7 @@ PlasmoidItem {
             }
         }
 
-        if (foundTrack) return;
+        if (foundTrack || !lyricQueryUrl) return;
 
         // Get using API
         if (!queryFailed) console.log(`Getting lyrics for '${title}'`);
