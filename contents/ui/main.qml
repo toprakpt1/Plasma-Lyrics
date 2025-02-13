@@ -263,7 +263,12 @@ PlasmoidItem {
             }
         }
 
-        if (foundTrack || !lyricQueryUrl) return;
+        if (foundTrack) return;
+        if (!lyricQueryUrl && config_searchAttempts > (queryFailed + 1)) {
+            // Skip attempt if URL is empty
+            queryFailed++;
+            return getLyrics();
+        }
 
         // Get using API
         if (!queryFailed) console.log(`Getting lyrics for '${title}'`);
