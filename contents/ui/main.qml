@@ -254,6 +254,7 @@ PlasmoidItem {
     function getLyrics() {
         // Check for already existing track (cached)
         let foundTrack = false;
+        console.log(`Checking ${tracksList.count} cached track(s)`);
         for (let i = 0; i < tracksList.count; i++) {
             const track = tracksList.get(i);
             if (track.title === title && track.artist === artist && track.album === album) {
