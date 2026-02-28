@@ -3,28 +3,34 @@
     <kcfgfile name=""/>
 
     <group name="General">
-        <entry name="width" type="Int">
+        <entry name="useFixedSize" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="fixedWidth" type="Int">
             <default>300</default>
         </entry>
-        <entry name="height" type="Int">
-            <default></default>
+        <entry name="fixedHeight" type="Int">
+            <default>150</default>
         </entry>
         <entry name="margin" type="Int">
             <default>5</default>
         </entry>
-        <entry name="size" type="Int">
+        <entry name="fontFamily" type="String">
+            <default>Sans Serif</default>
+        </entry>
+        <entry name="fontSize" type="Int">
             <default>13</default>
         </entry>
-        <entry name="color" type="Color">
+        <entry name="fontColor" type="Color">
             <default>#FFFFFF</default>
         </entry>
-        <entry name="bold" type="Bool">
+        <entry name="fontBold" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="italic" type="Bool">
+        <entry name="fontItalic" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="customBackground" type="Bool">
+        <entry name="useCustomBackground" type="Bool">
             <default>false</default>
         </entry>
         <entry name="backgroundColor" type="Color">
@@ -45,25 +51,25 @@
         <entry name="offset" type="Int">
             <default>-500</default>
         </entry>
-        <entry name="searchAttempts" type="Int">
-            <default>2</default>
-        </entry>
-        <entry name="alignHorizontalLeft" type="Bool">
+        <entry name="allowSearch" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="alignHorizontalCenter" type="Bool">
+        <entry name="horizontalAlignLeft" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="horizontalAlignCenter" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="alignHorizontalRight" type="Bool">
+        <entry name="horizontalAlignRight" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="alignVerticalTop" type="Bool">
+        <entry name="verticalAlignTop" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="alignVerticalCenter" type="Bool">
+        <entry name="verticalAlignCenter" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="alignVerticalBottom" type="Bool">
+        <entry name="verticalAlignBottom" type="Bool">
             <default>false</default>
         </entry>
     </group>
