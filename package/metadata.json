@@ -14,7 +14,7 @@
         "Name": "Lyrics",
         "Version": "1.2",
         "Website": "https://github.com/Lyall-A/Plasma-Lyrics",
-        "BugReportUrl": "https://github.com/Lyall-A/Plasma-Lyrics"
+        "BugReportUrl": "https://github.com/Lyall-A/Plasma-Lyrics/issues"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "KPackageStructure": "Plasma/Applet"
