@@ -278,7 +278,7 @@ PlasmoidItem {
                     responseJson = JSON.parse(xhr.responseText);
                 } catch (err) { };
 
-                const track = responseJson?.[0]; // Get first track
+                const track = responseJson?.find(track => track?.syncedLyrics); // Get first track that has synced lyrics
                 const lyrics = track?.syncedLyrics;
 
                 if (!lyrics) {
