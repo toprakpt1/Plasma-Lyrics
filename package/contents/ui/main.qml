@@ -39,6 +39,7 @@ PlasmoidItem {
             'Advertisement', // Spotify Ads
             / \/ (X|Twitter)$/, // X/Twitter
             /^TikTok - /, // TikTok
+            'A site is playing media', // Brave private window (maybe other chromium browsers as well?)
         ],
         album: [
             /^https:\/\/(x|twitter).com/, // X/Twitter
