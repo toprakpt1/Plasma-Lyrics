@@ -13,4 +13,3 @@ Although there is a basic blacklist to block certain content, this widget may at
 ![Screenshot 3](./screenshot3.png)
 ![Screenshot 1](./screenshot1.png)
 ![Screenshot 4](./screenshot4.png)
-![Screenshot 2](./screenshot2.png)
