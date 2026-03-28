@@ -29,31 +29,40 @@ PlasmoidItem {
         id: mpris2Model
     }
 
-    // Player info
-    readonly property string title: mpris2Model.currentPlayer?.track || ''
-    readonly property string album: mpris2Model.currentPlayer?.album || ''
-    readonly property string artist: mpris2Model.currentPlayer?.artist?.replace(/ - Topic$/, '') || ''
-    readonly property string playerName: mpris2Model.currentPlayer?.objectName || ''
-    readonly property int position: mpris2Model.currentPlayer?.position / 1000 || 0
-    readonly property bool isPlaying: mpris2Model.currentPlayer?.playbackStatus === Mpris.PlaybackStatus.Playing ? true : false
-
     // Constants
     readonly property string apiBaseUrl: 'https://lrclib.net'
     readonly property string apiUserAgent: 'Plasma-Lyrics (https://github.com/Lyall-A/Plasma-Lyrics)'
-    readonly property string timerInterval: 1000 / 30; // 30 times a second
-    readonly property bool debug: false;
-    readonly property var titleBlacklist: [
-        'Advertisement', // Spotify Ads
-        / \/ (X|Twitter)$/, // X/Twitter
-        /^TikTok - /, // TikTok
-    ]
-    readonly property var albumBlacklist: [
-        /^https:\/\/(x|twitter).com/, // X/Twitter
-        /^https:\/\/www.tiktok.com/, // TikTok
-    ]
-    readonly property var artistBlacklist: [
-        'DJ X', // Spotify DJ
-    ]
+    readonly property string timerInterval: 1000 / 30 // 30 times a second
+    readonly property bool debug: false
+    readonly property var blacklist: ({
+        title: [
+            'Advertisement', // Spotify Ads
+            / \/ (X|Twitter)$/, // X/Twitter
+            /^TikTok - /, // TikTok
+        ],
+        album: [
+            /^https:\/\/(x|twitter).com/, // X/Twitter
+            /^https:\/\/www.tiktok.com/, // TikTok
+        ],
+        artist: [
+            'DJ X', // Spotify DJ
+        ]
+    })
+    readonly property var replacement: ({
+        title: [],
+        album: [],
+        artist: [
+            [/ - Topic$/, ''] // YouTube Topic channels
+        ]
+    })
+
+    // Player info
+    readonly property string title: replacement.title.reduce((title, [pattern, value]) => title.replace(pattern, value), mpris2Model.currentPlayer?.track || '')
+    readonly property string album: replacement.album.reduce((album, [pattern, value]) => album.replace(pattern, value), mpris2Model.currentPlayer?.album || '')
+    readonly property string artist: replacement.artist.reduce((artist, [pattern, value]) => artist.replace(pattern, value), mpris2Model.currentPlayer?.artist || '')
+    readonly property string playerName: mpris2Model.currentPlayer?.objectName || ''
+    readonly property int position: mpris2Model.currentPlayer?.position / 1000 || 0
+    readonly property bool isPlaying: mpris2Model.currentPlayer?.playbackStatus === Mpris.PlaybackStatus.Playing ? true : false
 
     // Config
     readonly property bool useFixedSize: Plasmoid.configuration.useFixedSize
@@ -184,9 +193,9 @@ PlasmoidItem {
                 if (!title) return;
                 
                 // Blacklisted
-                if (matchString(titleBlacklist, title)) return console.log(`Not getting lyrics for '${title}' (blacklisted title)`);
-                if (matchString(albumBlacklist, title)) return console.log(`Not getting lyrics for '${title}' (blacklisted album)`);
-                if (matchString(artistBlacklist, title)) return console.log(`Not getting lyrics for '${title}' (blacklisted artist)`);
+                if (matchString(blacklist.title, title)) return console.log(`Not getting lyrics for '${title}' (blacklisted title)`);
+                if (matchString(blacklist.album, album)) return console.log(`Not getting lyrics for '${title}' (blacklisted album)`);
+                if (matchString(blacklist.artist, artist)) return console.log(`Not getting lyrics for '${title}' (blacklisted artist)`);
 
                 updateLyrics();
             }
