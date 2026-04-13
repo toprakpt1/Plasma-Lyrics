@@ -98,8 +98,9 @@ PlasmoidItem {
     property int currentLyricIndex: 0
     property int failedAttempts: 0
     property string lyricsUrl: {
-        if (failedAttempts === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}`;
-        if (failedAttempts === 1 && allowSearch) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`;
+        if (failedAttempts === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&album_name=${encodeURIComponent(album)}&artist_name=${encodeURIComponent(artist)}`;
+        if (failedAttempts === 1) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}`;
+        if (failedAttempts === 2 && allowSearch) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`;
 
         return '';
     }
@@ -270,9 +271,9 @@ PlasmoidItem {
 
         const url = lyricsUrl;
 
-        if (!url) return console.log(`Failed to get lyrics after ${failedAttempts} attempt(s)`);
+        if (!url) return console.log(`Failed to get lyrics after ${failedAttempts} attempt(s)!`);
 
-        console.log(`Getting lyrics for '${title}'${failedAttempts > 0 ? ` (x${failedAttempts + 1})` : ''}`);
+        console.log(`Getting lyrics for '${title}' (attempt ${failedAttempts + 1})`);
         logDebug(`Fetching '${url}'`);
 
         const xhr = new XMLHttpRequest();
