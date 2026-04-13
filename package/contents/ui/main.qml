@@ -214,7 +214,7 @@ PlasmoidItem {
                 // Media playing and lyrics available
                 for (let lyricIndex = lyricsList.count - 1; lyricIndex >= 0; lyricIndex--) {
                     const { time, lyric } = lyricsList.get(lyricIndex);
-                    if (position >= time) {
+                    if ((position - offset) >= time) {
                         setText(lyric, currentLyricIndex !== lyricIndex);
                         currentLyricIndex = lyricIndex;
                         break;
