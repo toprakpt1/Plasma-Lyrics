@@ -50,7 +50,9 @@ PlasmoidItem {
         ]
     })
     readonly property var replacement: ({
-        title: [],
+        title: [
+            [/ \| YouTube Music$/, ''] // YouTube Music suffix
+        ],
         album: [],
         artist: [
             [/ - Topic$/, ''] // YouTube Topic channels
