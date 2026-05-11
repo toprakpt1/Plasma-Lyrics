@@ -24,6 +24,7 @@ KCM.SimpleKCM {
     property alias cfg_noLyrics: noLyricsTextField.text
     property alias cfg_offset: offsetTextField.text
     property alias cfg_allowSearch: allowSearchCheckBox.checked
+    property alias cfg_firstArtist: firstArtistCheckBox.checked
     property alias cfg_horizontalAlignLeft: horizontalAlignLeftButton.checked
     property alias cfg_horizontalAlignCenter: horizontalAlignCenterButton.checked
     property alias cfg_horizontalAlignRight: horizontalAlignRightButton.checked
@@ -32,9 +33,16 @@ KCM.SimpleKCM {
     property alias cfg_verticalAlignBottom: verticalAlignBottomButton.checked
 
     Kirigami.FormLayout {
-        QQC2.CheckBox {
-            id: useFixedSizeCheckBox
+        RowLayout {
             Kirigami.FormData.label: i18n("Use fixed size: ")
+
+            QQC2.CheckBox {
+                id: useFixedSizeCheckBox
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("Use this if placing inside of a panel")
+            }
         }
 
         QQC2.TextField {
@@ -127,9 +135,16 @@ KCM.SimpleKCM {
             Kirigami.FormData.label: i18n("Lyric Offset: ")
         }
     
-        QQC2.CheckBox {
-            id: allowSearchCheckBox
+        RowLayout {
             Kirigami.FormData.label: i18n("Search fallback (inaccurate): ")
+            
+            QQC2.CheckBox {
+                id: allowSearchCheckBox
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("Allows for lyrics based on a search query rather than exact matches")
+            }
         }
     
         RowLayout {
