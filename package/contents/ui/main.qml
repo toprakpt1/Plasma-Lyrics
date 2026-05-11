@@ -62,7 +62,10 @@ PlasmoidItem {
     // Player info
     readonly property string title: replacement.title.reduce((title, [pattern, value]) => title.replace(pattern, value), mpris2Model.currentPlayer?.track || '')
     readonly property string album: replacement.album.reduce((album, [pattern, value]) => album.replace(pattern, value), mpris2Model.currentPlayer?.album || '')
-    readonly property string artist: replacement.artist.reduce((artist, [pattern, value]) => artist.replace(pattern, value), mpris2Model.currentPlayer?.artist || '')
+    readonly property string artist: {
+        const artist = replacement.artist.reduce((artist, [pattern, value]) => artist.replace(pattern, value), mpris2Model.currentPlayer?.artist || '');
+        return firstArtist ? artist.split(';')[0].trim() : artist;
+    }
     readonly property string playerName: mpris2Model.currentPlayer?.objectName || ''
     readonly property int position: mpris2Model.currentPlayer?.position / 1000 || 0
     readonly property bool isPlaying: mpris2Model.currentPlayer?.playbackStatus === Mpris.PlaybackStatus.Playing ? true : false
@@ -85,6 +88,7 @@ PlasmoidItem {
     readonly property string noLyrics: Plasmoid.configuration.noLyrics
     readonly property int offset: Plasmoid.configuration.offset
     readonly property bool allowSearch: Plasmoid.configuration.allowSearch
+    readonly property bool firstArtist: Plasmoid.configuration.firstArtist
     readonly property bool horizontalAlignLeft: Plasmoid.configuration.horizontalAlignLeft
     readonly property bool horizontalAlignCenter: Plasmoid.configuration.horizontalAlignCenter
     readonly property bool horizontalAlignRight: Plasmoid.configuration.horizontalAlignRight
