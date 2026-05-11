@@ -155,7 +155,7 @@ KCM.SimpleKCM {
             }
 
             Kirigami.ContextualHelpButton {
-                toolTipText: i18n("Searches for lyrics using only the first artist")
+                toolTipText: i18n("Ignores featured artists while searching for lyrics")
             }
         }
     
