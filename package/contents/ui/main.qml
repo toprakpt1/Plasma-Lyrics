@@ -30,7 +30,6 @@ PlasmoidItem {
     }
 
     // Constants
-    readonly property string apiBaseUrl: 'https://lrclib.net'
     readonly property string apiUserAgent: 'Plasma-Lyrics (https://github.com/Lyall-A/Plasma-Lyrics)'
     readonly property string timerInterval: 1000 / 30 // 30 times a second
     readonly property bool debug: false
@@ -95,6 +94,7 @@ PlasmoidItem {
     readonly property bool verticalAlignTop: Plasmoid.configuration.verticalAlignTop
     readonly property bool verticalAlignCenter: Plasmoid.configuration.verticalAlignCenter
     readonly property bool verticalAlignBottom: Plasmoid.configuration.verticalAlignBottom
+    readonly property string apiBaseUrl: Plasmoid.configuration.apiBaseUrl
 
     // Variables
     property string previousTitle: ''

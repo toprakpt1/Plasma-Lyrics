@@ -31,6 +31,7 @@ KCM.SimpleKCM {
     property alias cfg_verticalAlignTop: verticalAlignTopButton.checked
     property alias cfg_verticalAlignCenter: verticalAlignCenterButton.checked
     property alias cfg_verticalAlignBottom: verticalAlignBottomButton.checked
+    property alias cfg_apiBaseUrl: apiBaseUrlTextField.text
 
     Kirigami.FormLayout {
         RowLayout {
@@ -133,6 +134,12 @@ KCM.SimpleKCM {
         QQC2.TextField {
             id: offsetTextField
             Kirigami.FormData.label: i18n("Lyric Offset: ")
+        }
+
+        QQC2.TextField {
+            id: apiBaseUrlTextField
+            Kirigami.FormData.label: i18n("LRCLIB Base URL: ")
+            placeholderText: "https://lrclib.net"
         }
     
         RowLayout {
