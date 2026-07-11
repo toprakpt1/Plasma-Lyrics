@@ -8,6 +8,7 @@ import org.kde.kcmutils as KCM
 KCM.SimpleKCM {
     property alias cfg_allowSearch: allowSearchCheckBox.checked
     property alias cfg_firstArtist: firstArtistCheckBox.checked
+    property alias cfg_enableFallbackApi: enableFallbackApiCheckBox.checked
     property alias cfg_apiBaseUrl: apiBaseUrlTextField.text
 
     Kirigami.FormLayout {
@@ -38,6 +39,18 @@ KCM.SimpleKCM {
 
             Kirigami.ContextualHelpButton {
                 toolTipText: i18n("Ignores featured artists while searching for lyrics")
+            }
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Fallback API (LrcApi): ")
+
+            QQC2.CheckBox {
+                id: enableFallbackApiCheckBox
+            }
+
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n("Uses api.lrc.cx as a secondary lyrics source when LRCLIB fails")
             }
         }
     }

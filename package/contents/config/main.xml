@@ -57,6 +57,12 @@
         <entry name="allowSearch" type="Bool">
             <default>false</default>
         </entry>
+        <entry name="firstArtist" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="enableFallbackApi" type="Bool">
+            <default>true</default>
+        </entry>
         <entry name="horizontalAlignLeft" type="Bool">
             <default>false</default>
         </entry>

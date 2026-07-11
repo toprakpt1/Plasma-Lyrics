@@ -88,6 +88,7 @@ PlasmoidItem {
     readonly property int offset: Plasmoid.configuration.offset
     readonly property bool allowSearch: Plasmoid.configuration.allowSearch
     readonly property bool firstArtist: Plasmoid.configuration.firstArtist
+    readonly property bool enableFallbackApi: Plasmoid.configuration.enableFallbackApi
     readonly property bool horizontalAlignLeft: Plasmoid.configuration.horizontalAlignLeft
     readonly property bool horizontalAlignCenter: Plasmoid.configuration.horizontalAlignCenter
     readonly property bool horizontalAlignRight: Plasmoid.configuration.horizontalAlignRight
@@ -107,7 +108,7 @@ PlasmoidItem {
         if (failedAttempts === 0) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&album_name=${encodeURIComponent(album)}&artist_name=${encodeURIComponent(artist)}`;
         if (failedAttempts === 1) return `${apiBaseUrl}/api/search?track_name=${encodeURIComponent(title)}&artist_name=${encodeURIComponent(artist)}`;
         if (failedAttempts === 2 && allowSearch) return `${apiBaseUrl}/api/search?q=${encodeURIComponent(title)}`;
-
+        if (enableFallbackApi && ((failedAttempts === 2 && !allowSearch) || failedAttempts === 3)) return `https://api.lrc.cx/lyrics?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`;
         return '';
     }
 
@@ -279,7 +280,8 @@ PlasmoidItem {
 
         if (!url) return console.log(`Failed to get lyrics after ${failedAttempts} attempt(s)!`);
 
-        console.log(`Getting lyrics for '${title}' (attempt ${failedAttempts + 1})`);
+        const isFallback = url.startsWith('https://api.lrc.cx');
+        console.log(`Getting lyrics for '${title}' (attempt ${failedAttempts + 1}${isFallback ? ', fallback API' : ''})`);
         logDebug(`Fetching '${url}'`);
 
         const xhr = new XMLHttpRequest();
@@ -288,8 +290,20 @@ PlasmoidItem {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (url !== lyricsUrl) return console.log('URL changed mid-request, ignoring');
-                
-                // Try parse JSON
+
+                // Fallback API (api.lrc.cx) returns raw LRC text, not JSON
+                const responseText = String(xhr.responseText || '');
+                const isFallbackUrl = url.startsWith('https://api.lrc.cx');
+                if (isFallbackUrl && enableFallbackApi && responseText.trim().startsWith('[') && responseText.includes('[0')) {
+                    console.log(`Got lyrics from fallback API for '${title}'`);
+                    logDebug(`Fallback API response: ${responseText.substring(0, 200)}`);
+                    failedAttempts = 0;
+                    tracksList.append({ title, album, artist, lyrics: responseText });
+                    logDebug(`Cached tracks: ${tracksList.count}`);
+                    return useLyrics(responseText);
+                }
+
+                // Try parse JSON (LRCLIB response)
                 let responseJson;
                 try {
                     responseJson = JSON.parse(xhr.responseText);
